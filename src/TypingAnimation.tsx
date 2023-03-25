@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Text, Blink, Cursor } from "./style";
+import styled from "styled-components";
 
 interface Props {
   textArray: string[];
@@ -10,47 +10,80 @@ interface Props {
   delaySpeed?: number;
 }
 
+interface TypingContainerProps {
+  fontSize?: string;
+  textColor?: string;
+}
+
+interface CursorProps {
+  cursorColor?: string;
+}
+
+const TypingContainer = styled.div<TypingContainerProps>`
+  display: inline-block;
+  font-size: ${(props) => props.fontSize || "1rem"};
+  color: ${(props) => props.textColor || "black"};
+`;
+
+const Cursor = styled.span<CursorProps>`
+  display: inline-block;
+  width: 0.3rem;
+  height: 1rem;
+  margin-left: 0.1rem;
+  background-color: ${(props) => props.cursorColor || "black"};
+  animation: blink 1s infinite;
+`;
+
+const blink = `
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+`;
+
 export const TypingAnimator: React.FC<Props> = ({
   textArray,
-  cursorColor = "#000",
-  textColor = "#000",
-  fontSize = "1em",
-  typingSpeed = 200,
-  delaySpeed = 1500,
+  cursorColor,
+  textColor,
+  fontSize,
+  typingSpeed,
+  delaySpeed,
 }) => {
   const [currentText, setCurrentText] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [forward, setForward] = useState(true);
 
   useEffect(() => {
-    const currentWord = textArray[currentWordIndex];
-    let currentWordIndexCopy = currentWordIndex;
-
-    const intervalId = setInterval(() => {
-      setCurrentText((prevText) => {
-        if (prevText === currentWord) {
-          clearInterval(intervalId);
+    const interval = setInterval(() => {
+      if (forward) {
+        if (currentText === textArray[currentWordIndex]) {
+          setForward(false);
           setTimeout(() => {
-            setCurrentWordIndex((prevIndex) =>
-              prevIndex === textArray.length - 1 ? 0 : prevIndex + 1
-            );
-          }, delaySpeed);
+            setCurrentWordIndex((currentWordIndex + 1) % textArray.length);
+            setForward(true);
+          }, delaySpeed || 1000);
         } else {
-          return currentWord.slice(0, prevText.length + 1);
+          setCurrentText(
+            textArray[currentWordIndex].slice(0, currentText.length + 1)
+          );
         }
-        return prevText;
-      });
-    }, typingSpeed);
-
-    return () => clearInterval(intervalId);
-  }, [currentText, currentWordIndex, delaySpeed, textArray, typingSpeed]);
+      } else {
+        if (currentText === "") {
+          setForward(true);
+        } else {
+          setCurrentText(currentText.slice(0, currentText.length - 1));
+        }
+      }
+    }, typingSpeed || 100);
+    return () => clearInterval(interval);
+  }, [currentText, forward, currentWordIndex]);
 
   return (
-    <Container>
-      <Text style={{ color: textColor, fontSize: fontSize }}>
-        {currentText}
-        <Blink style={{ backgroundColor: cursorColor }} />
-      </Text>
-      <Cursor style={{ backgroundColor: cursorColor }} />
-    </Container>
+    <TypingContainer fontSize={fontSize} textColor={textColor}>
+      {currentText}
+      <Cursor cursorColor={cursorColor} />
+      <style>{blink}</style>
+    </TypingContainer>
   );
 };
