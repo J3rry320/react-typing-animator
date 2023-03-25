@@ -1,6 +1,6 @@
 {
   "name": "react-typing-animator",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A React component that animates a given text array into a looping typing animation of each word.",
   "main": "src/index.js",
   "scripts": {
@@ -22,10 +22,12 @@
   "license": "MIT",
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.9"
   },
   "devDependencies": {
     "@types/react": "^18.0.29",
+    "@types/styled-components": "^5.1.26",
     "typescript": "^5.0.2"
   }
 }

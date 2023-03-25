@@ -1,87 +1,56 @@
 import React, { useState, useEffect } from "react";
-import "./index.module.css";
+import { Container, Text, Blink, Cursor } from "./style";
 
-export interface TypingAnimatorProps {
-  /**
-   * An array of strings to animate
-   */
+interface Props {
   textArray: string[];
-
-  delay?: number;
-  /**
-   * Amount of time in milliseconds to wait before the typing animation
-   */
-  typingDelay?: number;
-  /**
-   * Amount of time by which the blinking animation should be delayed
-   */
-  blinkDelay?: number;
+  cursorColor?: string;
+  textColor?: string;
+  fontSize?: string;
+  typingSpeed?: number;
+  delaySpeed?: number;
 }
 
-export const TypingAnimator: React.FC<TypingAnimatorProps> = ({
+export const TypingAnimator: React.FC<Props> = ({
   textArray,
-  delay = 1000,
-  typingDelay = 100,
-  blinkDelay = 500,
+  cursorColor = "#000",
+  textColor = "#000",
+  fontSize = "1em",
+  typingSpeed = 200,
+  delaySpeed = 1500,
 }) => {
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
-  const [currentWord, setCurrentWord] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
+    const currentWord = textArray[currentWordIndex];
+    let currentWordIndexCopy = currentWordIndex;
+
     const intervalId = setInterval(() => {
-      setShowCursor((prev) => !prev);
-
-      if (showCursor) {
-        setCurrentWordIndex((prev) => prev + 1);
-
-        if (currentWordIndex === textArray[currentTextIndex].length) {
-          setCurrentTextIndex((prev) => (prev + 1) % textArray.length);
-          setCurrentWordIndex(0);
-        }
-      }
-    }, blinkDelay);
-
-    return () => clearInterval(intervalId);
-  }, [blinkDelay, currentTextIndex, currentWordIndex, showCursor, textArray]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentWord((prev) => {
-        const word = textArray[currentTextIndex];
-
-        if (currentWordIndex === word.length) {
-          return prev;
-        }
-
-        const newWord = word.slice(0, currentWordIndex + 1);
-
-        if (prev === newWord) {
-          setCurrentWordIndex((prev) => prev + 1);
+      setCurrentText((prevText) => {
+        if (prevText === currentWord) {
+          clearInterval(intervalId);
+          setTimeout(() => {
+            setCurrentWordIndex((prevIndex) =>
+              prevIndex === textArray.length - 1 ? 0 : prevIndex + 1
+            );
+          }, delaySpeed);
         } else {
-          setCurrentWord(newWord);
+          return currentWord.slice(0, prevText.length + 1);
         }
-
-        return newWord;
+        return prevText;
       });
-    }, typingDelay);
+    }, typingSpeed);
 
     return () => clearInterval(intervalId);
-  }, [currentTextIndex, currentWordIndex, textArray, typingDelay]);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setShowCursor(true);
-    }, delay);
-
-    return () => clearTimeout(timeoutId);
-  }, [delay]);
+  }, [currentText, currentWordIndex, delaySpeed, textArray, typingSpeed]);
 
   return (
-    <div className="TypingAnimator">
-      <div className="TypingAnimator-word">{currentWord}</div>
-      {showCursor && <div className="TypingAnimator-cursor">|</div>}
-    </div>
+    <Container>
+      <Text style={{ color: textColor, fontSize: fontSize }}>
+        {currentText}
+        <Blink style={{ backgroundColor: cursorColor }} />
+      </Text>
+      <Cursor style={{ backgroundColor: cursorColor }} />
+    </Container>
   );
 };
