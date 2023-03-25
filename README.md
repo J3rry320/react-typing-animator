@@ -1,23 +1,27 @@
-React Typing Animator
+# React Typing Animator
 =====================
 
-The React Typing Animator is a React component that animates a given text array into a looping typing animation of each word.
+React Typing Animator is a React component for animating an array of texts like a typing sequence with blinking and a cursor. It can be used in both React and Next.js applications.
 
 Installation
 ------------
 
-You can install the React Typing Animator using npm:
+You can install the package via npm or yarn:
 
 
-```bash 
+
+```bash
 npm install react-typing-animator
+
+# or
+
+yarn add react-typing-animator
 ```
 
 Usage
 -----
 
-To use the React Typing Animator in your React app, import it and pass in an array of strings as the `textArray` prop:
-
+To use the component, you need to import it and pass an array of texts to the `textArray` prop. You can also customize the cursor color, text color, font size, typing speed, and delay speed.
 
 
 ```javascript
@@ -28,7 +32,14 @@ function App() {
   const textArray = ['Welcome', 'to', 'the', 'React', 'Typing', 'Animator'];
 
   return (
-    <TypingAnimator textArray={textArray} />
+    <TypingAnimator
+      textArray={textArray}
+      cursorColor="#333"
+      textColor="#555"
+      fontSize="24px"
+      typingSpeed={60}
+      delaySpeed={1000}
+    />
   );
 }
 
@@ -38,21 +49,16 @@ export default App;
 Props
 -----
 
-The React Typing Animator component accepts the following props:
+The component accepts the following props:
 
--   `textArray` (required): An array of strings to animate.
--   `delay` (optional): The delay in milliseconds before the animation starts. Defaults to 1000.
--   `typingDelay` (optional): The delay in milliseconds between each typed character. Defaults to 100.
--   `blinkDelay` (optional): The delay in milliseconds between each blink of the cursor. Defaults to 500.
-
-Styling
--------
-
-You can customize the styling of the React Typing Animator by adding CSS to your app. The component has the following class names:
-
--   `TypingAnimator`: The outermost container of the component.
--   `TypingAnimator-word`: The container of each word in the text array.
--   `TypingAnimator-cursor`: The cursor element that blinks at the end of each word.
+| Prop Name | Type | Default Value | Description |
+| --- | --- | --- | --- |
+| `textArray` | string[] | `[]` | An array of texts to be animated. |
+| `cursorColor` | string | `#000` | The color of the cursor. |
+| `textColor` | string | `#000` | The color of the text. |
+| `fontSize` | string | `16px` | The font size of the text. |
+| `typingSpeed` | number | `50` | The speed at which the typing animation occurs, in milliseconds per character. |
+| `delaySpeed` | number | `1000` | The delay between each text animation, in milliseconds. |
 
 Hire Me
 -------

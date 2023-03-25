@@ -2,11 +2,29 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 interface Props {
+  /**
+   * An array of text that you want to display
+   */
   textArray: string[];
+  /**
+   * The color of the cursor
+   */
   cursorColor?: string;
+  /**
+   * The color of the text
+   */
   textColor?: string;
+  /**
+   * The font size of the text
+   */
   fontSize?: string;
+  /**
+   * The typing speed. Should be an integer
+   */
   typingSpeed?: number;
+  /**
+   * The delay speed in milliseconds
+   */
   delaySpeed?: number;
 }
 
@@ -62,7 +80,7 @@ export const TypingAnimator: React.FC<Props> = ({
           setTimeout(() => {
             setCurrentWordIndex((currentWordIndex + 1) % textArray.length);
             setForward(true);
-          }, delaySpeed || 1000);
+          }, delaySpeed || 2000);
         } else {
           setCurrentText(
             textArray[currentWordIndex].slice(0, currentText.length + 1)
@@ -75,7 +93,7 @@ export const TypingAnimator: React.FC<Props> = ({
           setCurrentText(currentText.slice(0, currentText.length - 1));
         }
       }
-    }, typingSpeed || 100);
+    }, typingSpeed || 500);
     return () => clearInterval(interval);
   }, [currentText, forward, currentWordIndex]);
 
