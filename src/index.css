@@ -1,47 +1,43 @@
-.typing-animation-container {
-  display: flex;
-  justify-content: center;
-}
-
-.typing-animation {
-  font-size: 2em;
-  font-weight: bold;
-  text-align: center;
-  position: relative;
-}
-
-.typing-cursor {
+.TypingAnimator {
   display: inline-block;
-  position: absolute;
-  top: 0;
-  right: -0.2em;
-  animation: typing-cursor-animation 0.7s infinite;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
 }
 
-@keyframes typing-cursor-animation {
-  0% {
-    opacity: 1;
+.TypingAnimator-word {
+  display: inline-block;
+  margin-right: 4px;
+  border-right: 2px solid #333;
+  animation: typing 0.5s steps(30, end) forwards;
+}
+
+.TypingAnimator-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 24px;
+  margin-left: 4px;
+  background-color: #333;
+  animation: blink 1s infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
   }
-  50% {
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  0% {
     opacity: 0;
   }
-  100% {
-    opacity: 1;
-  }
-}
-
-@keyframes typing-cursor-blink {
-  0% {
-    opacity: 1;
-  }
   50% {
+    opacity: 1;
+  }
+  100% {
     opacity: 0;
   }
-  100% {
-    opacity: 1;
-  }
-}
-
-.typing-cursor.blink {
-  animation: typing-cursor-blink 1s infinite;
 }
