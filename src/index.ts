@@ -1,3 +1,2 @@
-import TypingAnimation from "./TypingAnimation";
-
-export default TypingAnimation;
+export { TypingAnimator } from "./TypingAnimation";
+export { TypingAnimatorProps } from "./TypingAnimation";

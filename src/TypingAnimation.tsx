@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from "react";
-import "./index.css";
+import "./index.module.css";
 
-interface TypingAnimatorProps {
+export interface TypingAnimatorProps {
+  /**
+   * An array of strings to animate
+   */
   textArray: string[];
+
   delay?: number;
+  /**
+   * Amount of time in milliseconds to wait before the typing animation
+   */
   typingDelay?: number;
+  /**
+   * Amount of time by which the blinking animation should be delayed
+   */
   blinkDelay?: number;
 }
 
-const TypingAnimator: React.FC<TypingAnimatorProps> = ({
+export const TypingAnimator: React.FC<TypingAnimatorProps> = ({
   textArray,
   delay = 1000,
   typingDelay = 100,
@@ -75,5 +85,3 @@ const TypingAnimator: React.FC<TypingAnimatorProps> = ({
     </div>
   );
 };
-
-export default TypingAnimator;
