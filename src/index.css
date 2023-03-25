@@ -1,0 +1,47 @@
+.typing-animation-container {
+  display: flex;
+  justify-content: center;
+}
+
+.typing-animation {
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+}
+
+.typing-cursor {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: -0.2em;
+  animation: typing-cursor-animation 0.7s infinite;
+}
+
+@keyframes typing-cursor-animation {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes typing-cursor-blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.typing-cursor.blink {
+  animation: typing-cursor-blink 1s infinite;
+}
