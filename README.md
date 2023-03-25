@@ -9,7 +9,9 @@ Installation
 You can install the React Typing Animator using npm:
 
 
-`npm install react-typing-animator`
+```bash 
+npm install react-typing-animator
+```
 
 Usage
 -----
@@ -18,7 +20,8 @@ To use the React Typing Animator in your React app, import it and pass in an arr
 
 
 
-`import React from 'react';
+```javascript
+import React from 'react';
 import TypingAnimator from 'react-typing-animator';
 
 function App() {
@@ -29,7 +32,8 @@ function App() {
   );
 }
 
-export default App;`
+export default App;
+```
 
 Props
 -----
