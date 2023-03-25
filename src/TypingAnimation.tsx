@@ -80,7 +80,7 @@ export const TypingAnimator: React.FC<Props> = ({
           setTimeout(() => {
             setCurrentWordIndex((currentWordIndex + 1) % textArray.length);
             setForward(true);
-          }, delaySpeed || 2000);
+          }, delaySpeed || 1500);
         } else {
           setCurrentText(
             textArray[currentWordIndex].slice(0, currentText.length + 1)
@@ -93,7 +93,7 @@ export const TypingAnimator: React.FC<Props> = ({
           setCurrentText(currentText.slice(0, currentText.length - 1));
         }
       }
-    }, typingSpeed || 500);
+    }, typingSpeed || 200);
     return () => clearInterval(interval);
   }, [currentText, forward, currentWordIndex]);
 
