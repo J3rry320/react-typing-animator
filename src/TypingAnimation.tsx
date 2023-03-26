@@ -1,14 +1,49 @@
 import React, { useState, useEffect } from "react";
-
 import styled from "styled-components";
 
-const TypingContainer = styled.div<Typings.TypingContainerProps>`
+interface Props {
+  /**
+   * An array of text that you want to display
+   */
+  textArray: string[];
+  /**
+   * The color of the cursor
+   */
+  cursorColor?: string;
+  /**
+   * The color of the text
+   */
+  textColor?: string;
+  /**
+   * The font size of the text
+   */
+  fontSize?: string;
+  /**
+   * The typing speed. Should be an integer
+   */
+  typingSpeed?: number;
+  /**
+   * The delay speed in milliseconds
+   */
+  delaySpeed?: number;
+}
+
+interface TypingContainerProps {
+  fontSize?: string;
+  textColor?: string;
+}
+
+interface CursorProps {
+  cursorColor?: string;
+}
+
+const TypingContainer = styled.div<TypingContainerProps>`
   display: inline-block;
   font-size: ${(props) => props.fontSize || "1rem"};
   color: ${(props) => props.textColor || "black"};
 `;
 
-const Cursor = styled.span<Typings.CursorProps>`
+const Cursor = styled.span<CursorProps>`
   display: inline-block;
   width: 0.3rem;
   height: 1rem;
@@ -25,7 +60,7 @@ const blink = `
   }
 `;
 
-export const TypingAnimator: React.FC<Typings.Props> = ({
+export const TypingAnimator: React.FC<Props> = ({
   textArray,
   cursorColor,
   textColor,

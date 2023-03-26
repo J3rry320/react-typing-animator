@@ -1,5 +1,5 @@
-declare module Typings {
-  export interface Props {
+import React from "react";
+interface Props {
     /**
      * An array of text that you want to display
      */
@@ -24,14 +24,6 @@ declare module Typings {
      * The delay speed in milliseconds
      */
     delaySpeed?: number;
-  }
-
-  export interface TypingContainerProps {
-    fontSize?: string;
-    textColor?: string;
-  }
-
-  export interface CursorProps {
-    cursorColor?: string;
-  }
 }
+export declare const TypingAnimator: React.FC<Props>;
+export {};
