@@ -1,16 +1,14 @@
 const path = require("path");
-const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
-  mode: "production",
   entry: "./src/index.ts",
   output: {
-    filename: "react-typing-animator.min.js",
     path: path.resolve(__dirname, "dist"),
-    library: "ReactTypingAnimator",
+    filename: "index.js",
     libraryTarget: "umd",
-    globalObject: "this",
+    library: "react-text-animator",
+    umdNamedDefine: true,
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
@@ -19,26 +17,27 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
+        use: "ts-loader",
         exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-typescript",
-            ],
-          },
-        },
       },
     ],
   },
+
   optimization: {
-    minimizer: [new TerserPlugin()],
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+    ],
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      "process.env.NODE_ENV": JSON.stringify("production"),
-    }),
-  ],
+  externals: {
+    react: "react",
+    "react-dom": "react-dom",
+  },
 };
