@@ -1,5 +1,6 @@
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.ts",
@@ -56,4 +57,5 @@ module.exports = {
     },
     "react-dom": "react-dom",
   },
+  plugins: [new CleanWebpackPlugin()],
 };
