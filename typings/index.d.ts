@@ -1,4 +1,4 @@
-declare module "react-text-animator" {
+declare module Typings {
   export interface Props {
     /**
      * An array of text that you want to display

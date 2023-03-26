@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Props, TypingContainerProps, CursorProps } from "react-text-animator";
+
 import styled from "styled-components";
 
-const TypingContainer = styled.div<TypingContainerProps>`
+const TypingContainer = styled.div<Typings.TypingContainerProps>`
   display: inline-block;
   font-size: ${(props) => props.fontSize || "1rem"};
   color: ${(props) => props.textColor || "black"};
 `;
 
-const Cursor = styled.span<CursorProps>`
+const Cursor = styled.span<Typings.CursorProps>`
   display: inline-block;
   width: 0.3rem;
   height: 1rem;
@@ -25,7 +25,7 @@ const blink = `
   }
 `;
 
-export const TypingAnimator: React.FC<Props> = ({
+export const TypingAnimator: React.FC<Typings.Props> = ({
   textArray,
   cursorColor,
   textColor,
