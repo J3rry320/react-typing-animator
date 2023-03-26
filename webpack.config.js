@@ -9,6 +9,7 @@ module.exports = {
     libraryTarget: "umd",
     library: "react-text-animator",
     umdNamedDefine: true,
+    globalObject: "this",
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
@@ -17,14 +18,24 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
         exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
+          },
+        },
       },
     ],
   },
 
   optimization: {
     minimize: true,
+    usedExports: true,
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -37,7 +48,12 @@ module.exports = {
     ],
   },
   externals: {
-    react: "react",
+    react: {
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "React",
+      root: "React",
+    },
     "react-dom": "react-dom",
   },
 };
