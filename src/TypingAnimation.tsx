@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-
+import "./index.css";
 interface Props {
   /**
    * An array of text that you want to display
@@ -27,38 +26,6 @@ interface Props {
    */
   delaySpeed?: number;
 }
-
-interface TypingContainerProps {
-  fontSize?: string;
-  textColor?: string;
-}
-
-interface CursorProps {
-  cursorColor?: string;
-}
-
-const TypingContainer = styled.div<TypingContainerProps>`
-  display: inline-block;
-  font-size: ${(props) => props.fontSize || "1rem"};
-  color: ${(props) => props.textColor || "black"};
-`;
-
-const Cursor = styled.span<CursorProps>`
-  display: inline-block;
-  width: 0.3rem;
-  height: 1rem;
-  margin-left: 0.1rem;
-  background-color: ${(props) => props.cursorColor || "black"};
-  animation: blink 1s infinite;
-`;
-
-const blink = `
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-`;
 
 export const TypingAnimator: React.FC<Props> = ({
   textArray,
@@ -98,10 +65,14 @@ export const TypingAnimator: React.FC<Props> = ({
   }, [currentText, forward, currentWordIndex]);
 
   return (
-    <TypingContainer fontSize={fontSize} textColor={textColor}>
+    <div
+      className="typing-container"
+      style={{ fontSize: fontSize, color: textColor }}
+    >
       {currentText}
-      <Cursor cursorColor={cursorColor} />
-      <style>{blink}</style>
-    </TypingContainer>
+      <span className="cursor" style={{ backgroundColor: cursorColor }}>
+        |
+      </span>
+    </div>
   );
 };
