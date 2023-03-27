@@ -1,2 +1,2 @@
-import { TypingAnimator } from "./TypingAnimation";
+import TypingAnimator from "./TypingAnimation";
 export default TypingAnimator;
