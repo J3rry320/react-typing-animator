@@ -90,7 +90,9 @@ const TypingAnimator = (props: Props) => {
         style={{
           backgroundColor: props.cursorColor || "black",
         }}
-      />
+      >
+        |
+      </span>
     </div>
   );
 };
