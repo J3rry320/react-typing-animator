@@ -30,6 +30,11 @@ interface Props {
    * Enable/disable backspace behavior
    */
   backspace?: boolean;
+
+  /**
+   * Height of the container in pixel. Default is 40
+   */
+  height?: string;
 }
 
 const TypingAnimator = (props: Props) => {
@@ -82,6 +87,7 @@ const TypingAnimator = (props: Props) => {
       style={{
         fontSize: props.fontSize || "1rem",
         color: props.textColor || "black",
+        height: "40px",
       }}
     >
       {currentText}
