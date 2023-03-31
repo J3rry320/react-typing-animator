@@ -37,46 +37,44 @@ const TypingAnimator = (props: Props) => {
   const [currentText, setCurrentText] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [forward, setForward] = useState(true);
-  useEffect(() => {
-    const typeInterval = setInterval(() => {
-      if (!forward) return;
+  const [delay, setDelay] = useState(false);
 
-      if (currentText === props.textArray[currentWordIndex]) {
-        setTimeout(() => {
-          setCurrentWordIndex((currentWordIndex + 1) % props.textArray.length);
-          if (props.backspace) {
-            setForward(false);
-          } else {
-            setCurrentText("");
-          }
-        }, props.delaySpeed || 1500);
+  useEffect(() => {
+    if (delay) return;
+
+    const interval = setInterval(() => {
+      if (forward) {
+        if (currentText === props.textArray[currentWordIndex]) {
+          setDelay(true);
+          setTimeout(() => {
+            setCurrentWordIndex(
+              (currentWordIndex + 1) % props.textArray.length
+            );
+            if (props.backspace) {
+              setForward(false);
+            } else {
+              setCurrentText("");
+            }
+            setDelay(false);
+          }, props.delaySpeed || 1500);
+        } else {
+          setCurrentText(
+            props.textArray[currentWordIndex].slice(0, currentText.length + 1)
+          );
+        }
       } else {
-        setCurrentText(
-          props.textArray[currentWordIndex].slice(0, currentText.length + 1)
-        );
+        if (currentText === "") {
+          setForward(true);
+        } else {
+          setCurrentText(currentText.slice(0, currentText.length - 1));
+        }
       }
     }, props.typingSpeed || 200);
 
     return () => {
-      clearInterval(typeInterval);
+      clearInterval(interval);
     };
-  }, [currentText, currentWordIndex, forward, props]);
-
-  useEffect(() => {
-    if (!props.backspace || forward) return;
-
-    const backspaceInterval = setInterval(() => {
-      if (currentText === "") {
-        setForward(true);
-      } else {
-        setCurrentText(currentText.slice(0, currentText.length - 1));
-      }
-    }, props.typingSpeed || 200);
-
-    return () => {
-      clearInterval(backspaceInterval);
-    };
-  }, [currentText, forward, props]);
+  }, [currentText, currentWordIndex, forward, delay, props]);
 
   return (
     <div
