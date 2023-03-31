@@ -38,34 +38,45 @@ const TypingAnimator = (props: Props) => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [forward, setForward] = useState(true);
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (props.backspace && !forward) {
-        if (currentText === "") {
-          setForward(true);
-        } else {
-          setCurrentText(currentText.slice(0, currentText.length - 1));
-        }
+    const typeInterval = setInterval(() => {
+      if (!forward) return;
+
+      if (currentText === props.textArray[currentWordIndex]) {
+        setTimeout(() => {
+          setCurrentWordIndex((currentWordIndex + 1) % props.textArray.length);
+          if (props.backspace) {
+            setForward(false);
+          } else {
+            setCurrentText("");
+          }
+        }, props.delaySpeed || 1500);
       } else {
-        if (currentText === props.textArray[currentWordIndex]) {
-          setForward(false);
-          setTimeout(() => {
-            setCurrentWordIndex(
-              (currentWordIndex + 1) % props.textArray.length
-            );
-            setForward(true);
-          }, props.delaySpeed || 1500);
-        } else {
-          setCurrentText(
-            props.textArray[currentWordIndex].slice(0, currentText.length + 1)
-          );
-        }
+        setCurrentText(
+          props.textArray[currentWordIndex].slice(0, currentText.length + 1)
+        );
       }
     }, props.typingSpeed || 200);
 
     return () => {
-      clearInterval(interval);
+      clearInterval(typeInterval);
     };
   }, [currentText, currentWordIndex, forward, props]);
+
+  useEffect(() => {
+    if (!props.backspace || forward) return;
+
+    const backspaceInterval = setInterval(() => {
+      if (currentText === "") {
+        setForward(true);
+      } else {
+        setCurrentText(currentText.slice(0, currentText.length - 1));
+      }
+    }, props.typingSpeed || 200);
+
+    return () => {
+      clearInterval(backspaceInterval);
+    };
+  }, [currentText, forward, props]);
 
   return (
     <div
