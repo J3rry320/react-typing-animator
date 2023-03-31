@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "./index.css";
 
 interface Props {
   /**
@@ -25,95 +26,64 @@ interface Props {
    * The delay speed in milliseconds
    */
   delaySpeed?: number;
+  /**
+   * Enable/disable backspace behavior
+   */
+  backspace?: boolean;
 }
 
-interface TypingContainerProps {
-  fontSize?: string;
-  textColor?: string;
-}
-
-interface CursorProps {
-  cursorColor?: string;
-}
-
-const blink = `
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
-  }
-`;
-
-class TypingAnimator extends React.Component<Props> {
-  private interval: number | undefined;
-  private currentText: string = "";
-  private currentWordIndex: number = 0;
-  private forward: boolean = true;
-
-  constructor(props: Props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    this.interval = window.setInterval(() => {
-      if (this.forward) {
-        if (this.currentText === this.props.textArray[this.currentWordIndex]) {
-          this.forward = false;
-          setTimeout(() => {
-            this.currentWordIndex =
-              (this.currentWordIndex + 1) % this.props.textArray.length;
-            this.forward = true;
-          }, this.props.delaySpeed || 1500);
+const TypingAnimator = (props: Props) => {
+  // ... useState and useEffect here ...
+  const [currentText, setCurrentText] = useState("");
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [forward, setForward] = useState(true);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (props.backspace && !forward) {
+        if (currentText === "") {
+          setForward(true);
         } else {
-          this.currentText = this.props.textArray[this.currentWordIndex].slice(
-            0,
-            this.currentText.length + 1
-          );
+          setCurrentText(currentText.slice(0, currentText.length - 1));
         }
       } else {
-        if (this.currentText === "") {
-          this.forward = true;
+        if (currentText === props.textArray[currentWordIndex]) {
+          setForward(false);
+          setTimeout(() => {
+            setCurrentWordIndex(
+              (currentWordIndex + 1) % props.textArray.length
+            );
+            setForward(true);
+          }, props.delaySpeed || 1500);
         } else {
-          this.currentText = this.currentText.slice(
-            0,
-            this.currentText.length - 1
+          setCurrentText(
+            props.textArray[currentWordIndex].slice(0, currentText.length + 1)
           );
         }
       }
-      this.forceUpdate();
-    }, this.props.typingSpeed || 200);
-  }
+    }, props.typingSpeed || 200);
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
+    return () => {
+      clearInterval(interval);
+    };
+  }, [currentText, currentWordIndex, forward, props]);
 
-  render() {
-    return (
-      <div
+  return (
+    <div
+      className="typing-container"
+      style={{
+        fontSize: props.fontSize || "1rem",
+        color: props.textColor || "black",
+      }}
+    >
+      {currentText}
+      <span
+        className="cursor"
         style={{
-          display: "inline-block",
-          fontSize: this.props.fontSize || "1rem",
-          color: this.props.textColor || "black",
-          position: "relative",
+          backgroundColor: props.cursorColor || "black",
         }}
-      >
-        {this.currentText}
-        <span
-          style={{
-            display: "inline-block",
-            width: "0.3rem",
-            height: "1rem",
-            marginLeft: "0.1rem",
-            backgroundColor: this.props.cursorColor || "black",
-            position: "absolute",
-            animation: "blink 1s infinite",
-          }}
-        />
-        <style>{blink}</style>
-      </div>
-    );
-  }
-}
+      />
+    </div>
+  );
+};
 
 export default TypingAnimator;

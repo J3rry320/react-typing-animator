@@ -59,6 +59,7 @@ The component accepts the following props:
 | `fontSize` | string | `16px` | The font size of the text. |
 | `typingSpeed` | number | `50` | The speed at which the typing animation occurs, in milliseconds per character. |
 | `delaySpeed` | number | `1000` | The delay between each text animation, in milliseconds. |
+| `backspace` | boolean | `false` | Wether to enable the backspace behavior and animation. |
 
 Hire Me
 -------
