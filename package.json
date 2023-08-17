@@ -1,14 +1,14 @@
 {
   "name": "react-typing-animator",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "source": "src/index.ts",
   "description": "A React component that animates a given text array into a looping typing animation of each word.",
   "types": "./dist/index.d.ts",
   "main": "./dist/lib.umd.js",
-  "module": "./dist/lib.module.js",
+  "module": "./dist/lib.modern.js",
   "scripts": {
     "build": "microbundle --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
-    "dev": "microbundle watch"
+    "dev": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react"
   },
   "files": [
     "dist/"
@@ -34,17 +34,16 @@
   ],
   "author": "J3rry Sa7pa7hy",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
+    "@types/react": "^18.2.20",
+    "@types/styled-components": "^5.1.26",
+    "microbundle": "^0.15.1",
+    "typescript": "^5.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
-  "devDependencies": {
-    "@types/react": "^18.0.29",
-    "@types/styled-components": "^5.1.26",
-    "microbundle": "^0.15.1",
-    "typescript": "^5.0.2"
-  },
   "peerDependencies": {
-    "react": "^16.0.0 || ^17.0.0 || ^18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

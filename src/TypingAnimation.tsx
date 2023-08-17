@@ -3,7 +3,7 @@ import "./index.css";
 
 interface Props {
   /**
-   * An array of text that you want to display
+   * An array of text that you want to display. Required
    */
   textArray: string[];
   /**
@@ -35,6 +35,10 @@ interface Props {
    * Height of the container in pixel. Default is 40
    */
   height?: string;
+  /**
+   * If you want to stop the animation after one iteration. Required.
+   */
+  loop: boolean;
 }
 
 const TypingAnimator = (props: Props) => {
@@ -46,7 +50,10 @@ const TypingAnimator = (props: Props) => {
 
   useEffect(() => {
     if (delay) return;
-
+    if (!props.loop && currentWordIndex === props.textArray.length - 1) {
+      setCurrentText(props.textArray[currentWordIndex]);
+      return; // Stop the animation
+    }
     const interval = setInterval(() => {
       if (forward) {
         if (currentText === props.textArray[currentWordIndex]) {
