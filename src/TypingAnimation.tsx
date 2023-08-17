@@ -26,6 +26,7 @@ interface Props {
    * The delay speed in milliseconds
    */
   delaySpeed?: number;
+
   /**
    * Enable/disable backspace behavior
    */
@@ -94,7 +95,7 @@ const TypingAnimator = (props: Props) => {
       style={{
         fontSize: props.fontSize || "1rem",
         color: props.textColor || "black",
-        height: "40px",
+        height: props.height || "40px",
       }}
     >
       {currentText}

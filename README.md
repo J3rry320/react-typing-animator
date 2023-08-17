@@ -42,6 +42,8 @@ function App() {
       loop
       typingSpeed={60}
       delaySpeed={1000}
+      backspace
+      height="60px"
     />
   );
 }
