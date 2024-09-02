@@ -44,6 +44,7 @@ function App() {
       delaySpeed={1000}
       backspace
       height="60px"
+      dynamicDelay
     />
   );
 }
@@ -67,6 +68,8 @@ The component accepts the following props:
 | `delaySpeed` | number | `1500` | The delay between each text animation, in milliseconds. |
 | `backspace` | boolean | `false` | Wether to enable the backspace behavior and animation. |
 | `height` | string | `40px` |Height of the text container. |
+| `dynamicDelay` | boolean | false | Adjust the delay based on the length of the current text. |
+
 
 Hire Me
 -------

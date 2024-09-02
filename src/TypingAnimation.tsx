@@ -14,7 +14,7 @@ interface Props {
   dynamicDelay?: boolean;
 }
 /**
- * Props for the TypingAnimator component.
+ * Props for the React Typing Animator component.
  * @typedef {Object} Props
  * @property {string[]} textArray - Array of strings to animate.
  * @property {string} [cursorColor="black"] - The color of the cursor.
@@ -27,10 +27,11 @@ interface Props {
  * @property {boolean} loop - If true, the animation will loop indefinitely.
  * @property {boolean} [dynamicDelay=false] - Adjust the delay based on the length of the current text.
  */
+
 /**
- * TypingAnimator is a React component that animates an array of texts in a typing sequence with a blinking cursor.
+ * React Typing Animator is a React component that animates an array of texts in a typing sequence with a blinking cursor.
  *
- * @param {Props} props - Props for TypingAnimator component.
+ * @param {Props} props - Props for React Typing Animator component.
  * @returns {JSX.Element} The animated text component with a cursor.
  *
  * @example
@@ -47,7 +48,6 @@ interface Props {
  *   dynamicDelay={true}
  * />
  */
-
 const TypingAnimator = ({
   textArray,
   cursorColor = "black",
