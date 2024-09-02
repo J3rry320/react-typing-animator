@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, CSSProperties } from "react";
 import "./index.css";
 
 interface Props {
@@ -12,21 +12,8 @@ interface Props {
   height?: string;
   loop: boolean;
   dynamicDelay?: boolean;
+  style?: CSSProperties;
 }
-/**
- * Props for the React Typing Animator component.
- * @typedef {Object} Props
- * @property {string[]} textArray - Array of strings to animate.
- * @property {string} [cursorColor="black"] - The color of the cursor.
- * @property {string} [textColor="black"] - The color of the text.
- * @property {string} [fontSize="1rem"] - The font size of the text.
- * @property {number} [typingSpeed=200] - The speed of typing in milliseconds per character.
- * @property {number} [delaySpeed=1500] - The delay between text animations in milliseconds.
- * @property {boolean} [backspace=false] - Whether to use backspace animation or not.
- * @property {string} [height="40px"] - The height of the text container.
- * @property {boolean} loop - If true, the animation will loop indefinitely.
- * @property {boolean} [dynamicDelay=false] - Adjust the delay based on the length of the current text.
- */
 
 /**
  * React Typing Animator is a React component that animates an array of texts in a typing sequence with a blinking cursor.
@@ -46,7 +33,22 @@ interface Props {
  *   height="50px"
  *   loop={true}
  *   dynamicDelay={true}
+ *   style={{ margin: "20px", textAlign: "center" }}
  * />
+ *
+ * Props for the React Typing Animator component.
+ * @typedef {Object} Props
+ * @property {string[]} textArray - Array of strings to animate.
+ * @property {string} [cursorColor="black"] - The color of the cursor.
+ * @property {string} [textColor="black"] - The color of the text.
+ * @property {string} [fontSize="1rem"] - The font size of the text.
+ * @property {number} [typingSpeed=200] - The speed of typing in milliseconds per character.
+ * @property {number} [delaySpeed=1500] - The delay between text animations in milliseconds.
+ * @property {boolean} [backspace=false] - Whether to use backspace animation or not.
+ * @property {string} [height="40px"] - The height of the text container.
+ * @property {boolean} loop - If true, the animation will loop indefinitely.
+ * @property {boolean} [dynamicDelay=false] - Adjust the delay based on the length of the current text.
+ * @property {CSSProperties} [style] - Additional CSS styles for the component.
  */
 const TypingAnimator = ({
   textArray,
@@ -59,6 +61,7 @@ const TypingAnimator = ({
   height = "40px",
   loop,
   dynamicDelay = false,
+  style = {},
 }: Props) => {
   const [currentText, setCurrentText] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
@@ -137,6 +140,7 @@ const TypingAnimator = ({
         fontSize,
         color: textColor,
         height,
+        ...style,
       }}
     >
       {currentText}

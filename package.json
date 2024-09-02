@@ -8,7 +8,8 @@
   "module": "./dist/lib.modern.js",
   "scripts": {
     "build": "rm -rf dist/ && microbundle --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
-    "dev": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react"
+    "dev": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
+    "prepublish": "npm run build"
   },
   "files": [
     "dist/"

@@ -3,7 +3,7 @@
 
 React Typing Animator is a React component for animating an array of texts like a typing sequence with blinking and a cursor. It can be used in both React and Next.js applications.
 
-[![ezgif.com-optimize4ce54c113c3c4877.gif](https://s10.gifyu.com/images/ezgif.com-optimize4ce54c113c3c4877.gif)](https://gifyu.com/image/SIYXV)
+[![ezgif.com-optimize4ce54c113c3c4877.gif](https://i.postimg.cc/MH82FRdL/Screen-Recording-2024-09-02-at-5-18-35-PM.gif)](https://gifyu.com/image/SIYXV)
 
 Installation
 ------------
@@ -45,6 +45,7 @@ function App() {
       backspace
       height="60px"
       dynamicDelay
+      style={{fontFamily: "Helvetica" , fontWeight: "bold", marginTop: "10px"}}
     />
   );
 }
@@ -69,12 +70,17 @@ The component accepts the following props:
 | `backspace` | boolean | `false` | Wether to enable the backspace behavior and animation. |
 | `height` | string | `40px` |Height of the text container. |
 | `dynamicDelay` | boolean | false | Adjust the delay based on the length of the current text. |
+| `style` | CssProperties | {} | Add any custom style to the component.|
 
 
 Hire Me
 -------
 
 If you'd like to hire me for your project or learn more about my experience, please check out my [LinkedIn profile](https://www.linkedin.com/in/jerrythejsguy/)!
+
+Contributing
+------------
+We welcome contributions! If you have ideas for new features or improvements, please open an issue or submit a pull request.
 
 License
 -------
