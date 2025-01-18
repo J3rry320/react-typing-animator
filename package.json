@@ -1,15 +1,23 @@
 {
   "name": "react-typing-animator",
-  "version": "6.0.0",
+  "version": "7.0.0",
   "source": "src/index.ts",
   "description": "A React component that animates a given text array into a looping typing animation of each word.",
-  "types": "./dist/index.d.ts",
-  "main": "./dist/lib.umd.js",
-  "module": "./dist/lib.modern.js",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.js",
+  "types": "dist/TypingAnimation.d.ts",
   "scripts": {
-    "build": "rm -rf dist/ && microbundle --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
-    "dev": "microbundle watch --jsx React.createElement --jsxFragment React.Fragment --jsxImportSource react",
+    "build": "rm -rf dist/ && rollup -c",
+    "dev": "rollup -c -w",
     "prepublish": "npm run build"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs.js",
+      "types": "./dist/TypingAnimation.d.ts"
+    },
+    "./styles.css": "./dist/index.css"
   },
   "files": [
     "dist/"
@@ -33,14 +41,22 @@
     "styled-components",
     "UI animation"
   ],
-  "author": "J3rry Sa7pa7hy",
+  "author": "Jerry Satpathy <rutuparna.satpathy01@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.2",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/node": "^22.10.7",
     "@types/react": "^18.3.5",
-    "microbundle": "^0.15.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "typescript": "^5.5.4"
+    "rollup": "^4.30.1",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "typescript": "^5.7.3"
   },
   "peerDependencies": {
     "react": "^18.0.0",

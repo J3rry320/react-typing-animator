@@ -10,8 +10,9 @@ interface Props {
   delaySpeed?: number;
   backspace?: boolean;
   height?: string;
-  loop: boolean;
+  loop?: boolean;
   dynamicDelay?: boolean;
+  displayCursor?: boolean;
   style?: CSSProperties;
 }
 
@@ -19,6 +20,18 @@ interface Props {
  * React Typing Animator is a React component that animates an array of texts in a typing sequence with a blinking cursor.
  *
  * @param {Props} props - Props for React Typing Animator component.
+ * @param {string[]} props.textArray - Required Array of strings to be animated in the typing sequence.
+ * @param {string} [props.cursorColor="black"] - Color of the blinking cursor.
+ * @param {string} [props.textColor="black"] - Color of the animated text.
+ * @param {string} [props.fontSize="1rem"] - Font size of the animated text.
+ * @param {number} [props.typingSpeed=200] - Speed of typing in milliseconds.
+ * @param {number} [props.delaySpeed=1500] - Delay between typing each word in milliseconds.
+ * @param {boolean} [props.backspace=false] - Whether to backspace the text after typing it.
+ * @param {string} [props.height="40px"] - Height of the container for the animated text.
+ * @param {boolean} [props.loop=true] - Whether to loop the animation after completing the text array.
+ * @param {boolean} [props.dynamicDelay=false] - Whether to add a dynamic delay based on the length of the text.
+ * @param {boolean} [props.displayCursor=true] - Whether to display the blinking cursor.
+ * @param {CSSProperties} [props.style={}] - Additional CSS styles for the container.
  * @returns {JSX.Element} The animated text component with a cursor.
  *
  * @example
@@ -33,22 +46,9 @@ interface Props {
  *   height="50px"
  *   loop={true}
  *   dynamicDelay={true}
+ *   displayCursor={true}
  *   style={{ margin: "20px", textAlign: "center" }}
  * />
- *
- * Props for the React Typing Animator component.
- * @typedef {Object} Props
- * @property {string[]} textArray - Array of strings to animate.
- * @property {string} [cursorColor="black"] - The color of the cursor.
- * @property {string} [textColor="black"] - The color of the text.
- * @property {string} [fontSize="1rem"] - The font size of the text.
- * @property {number} [typingSpeed=200] - The speed of typing in milliseconds per character.
- * @property {number} [delaySpeed=1500] - The delay between text animations in milliseconds.
- * @property {boolean} [backspace=false] - Whether to use backspace animation or not.
- * @property {string} [height="40px"] - The height of the text container.
- * @property {boolean} loop - If true, the animation will loop indefinitely.
- * @property {boolean} [dynamicDelay=false] - Adjust the delay based on the length of the current text.
- * @property {CSSProperties} [style] - Additional CSS styles for the component.
  */
 const TypingAnimator = ({
   textArray,
@@ -59,19 +59,21 @@ const TypingAnimator = ({
   delaySpeed = 1500,
   backspace = false,
   height = "40px",
-  loop,
+  loop = true,
   dynamicDelay = false,
+  displayCursor = true,
   style = {},
 }: Props) => {
   const [currentText, setCurrentText] = useState("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [forward, setForward] = useState(true);
   const [delay, setDelay] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Handle typing and backspacing
   useEffect(() => {
-    if (delay) return;
+    if (delay || isComplete) return;
 
     const handleTyping = () => {
       if (forward) {
@@ -98,25 +100,40 @@ const TypingAnimator = ({
         clearInterval(intervalRef.current);
       }
     };
-  }, [currentText, forward, typingSpeed]);
+  }, [
+    currentText,
+    forward,
+    typingSpeed,
+    delay,
+    isComplete,
+    currentWordIndex,
+    textArray,
+  ]);
 
   // Handle delays and word transitions
   useEffect(() => {
     if (!delay) return;
 
-    const handleDelay = () => {
-      setTimeout(
-        () => {
-          setCurrentWordIndex((currentWordIndex + 1) % textArray.length);
-          setForward(backspace ? false : true);
-          setCurrentText(backspace ? currentText : "");
-          setDelay(false);
-        },
-        dynamicDelay ? delaySpeed + currentText.length * 50 : delaySpeed
-      );
-    };
+    const timeout = setTimeout(
+      () => {
+        const isLastWord = currentWordIndex === textArray.length - 1;
 
-    handleDelay();
+        if (!loop && isLastWord) {
+          if (!backspace || (backspace && !forward)) {
+            setIsComplete(true);
+            return;
+          }
+        }
+
+        setCurrentWordIndex((prevIndex) => (prevIndex + 1) % textArray.length);
+        setForward(backspace ? false : true);
+        setCurrentText(backspace ? currentText : "");
+        setDelay(false);
+      },
+      dynamicDelay ? delaySpeed + currentText.length * 50 : delaySpeed
+    );
+
+    return () => clearTimeout(timeout);
   }, [
     delay,
     currentWordIndex,
@@ -124,14 +141,10 @@ const TypingAnimator = ({
     textArray.length,
     delaySpeed,
     dynamicDelay,
+    currentText,
+    loop,
+    forward,
   ]);
-
-  // Stop the animation if loop is false and the last word is reached
-  useEffect(() => {
-    if (!loop && currentWordIndex === textArray.length - 1 && !forward) {
-      clearInterval(intervalRef.current!);
-    }
-  }, [currentWordIndex, loop, forward, textArray.length]);
 
   return (
     <div
@@ -140,18 +153,21 @@ const TypingAnimator = ({
         fontSize,
         color: textColor,
         height,
+        lineHeight: height,
         ...style,
       }}
     >
-      {currentText}
-      <span
-        className="cursor"
-        style={{
-          backgroundColor: cursorColor,
-        }}
-      >
-        |
-      </span>
+      <span>{currentText}</span>
+      {displayCursor && !isComplete && (
+        <span
+          className="cursor"
+          style={{
+            backgroundColor: cursorColor,
+            height: `calc(${fontSize} * 1.2)`,
+            top: `calc((${height} - ${fontSize} * 1.2) /2)`,
+          }}
+        />
+      )}
     </div>
   );
 };

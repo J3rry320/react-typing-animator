@@ -61,7 +61,7 @@ The component accepts the following props:
 | Prop Name | Type | Default Value | Description |
 | --- | --- | --- | --- |
 | `textArray` | string[] | `[]` | An array of texts to be animated.**This is required**|
-| `loop` | boolean | false | If you need the animation to continue in a loop or stop after a single iteration. **This is required**|
+| `loop` | boolean | true | If you need the animation to continue in a loop or stop after a single iteration.|
 | `cursorColor` | string | `#000` | The color of the cursor. |
 | `textColor` | string | `#000` | The color of the text. |
 | `fontSize` | string | `16px` | The font size of the text. |
@@ -70,6 +70,7 @@ The component accepts the following props:
 | `backspace` | boolean | `false` | Wether to enable the backspace behavior and animation. |
 | `height` | string | `40px` |Height of the text container. |
 | `dynamicDelay` | boolean | false | Adjust the delay based on the length of the current text. |
+| `displayCursor` | boolean | true | Wether or not to display the cursor at the end. |
 | `style` | CssProperties | {} | Add any custom style to the component.|
 
 
