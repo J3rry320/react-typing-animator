@@ -23,12 +23,13 @@ yarn add react-typing-animator
 Usage
 -----
 
-To use the component, you need to import it and pass an array of texts to the `textArray` prop and also pass a boolean value to the `loop` prop. You can also customize the cursor color, text color, font size, typing speed, and delay speed.
+To use the component, import it into your project, provide an array of texts to the textArray prop, and customize the behavior and styles using other available props. Additionally, **don't forget to import the CSS file** for the component to work as intended.
 
 
 ```javascript
 import React from 'react';
 import TypingAnimator from 'react-typing-animator';
+import 'react-typing-animator/styles.css';
 
 function App() {
   const textArray = ['Welcome', 'to', 'the', 'React', 'Typing', 'Animator'];
@@ -39,12 +40,13 @@ function App() {
       cursorColor="#333"
       textColor="#555"
       fontSize="24px"
-      loop
+      loop={false}
       typingSpeed={60}
       delaySpeed={1000}
       backspace
       height="60px"
       dynamicDelay
+      displayCursor={false}
       style={{fontFamily: "Helvetica" , fontWeight: "bold", marginTop: "10px"}}
     />
   );
@@ -73,6 +75,14 @@ The component accepts the following props:
 | `displayCursor` | boolean | true | Wether or not to display the cursor at the end. |
 | `style` | CssProperties | {} | Add any custom style to the component.|
 
+Features
+-------
+
+-   **Highly Customizable:** Adjust typing speed, colors, font sizes, and more.
+-   **Looping Animations:** Choose whether the animation repeats indefinitely.
+-   **Dynamic Delays:** Customize the delay based on text length for a natural typing effect.
+-   **Backspace Support:** Enable backspace for realistic typing behavior.
+
 
 Hire Me
 -------
@@ -81,7 +91,7 @@ If you'd like to hire me for your project or learn more about my experience, ple
 
 Contributing
 ------------
-We welcome contributions! If you have ideas for new features or improvements, please open an issue or submit a pull request.
+We welcome contributions! If you have ideas for new features or improvements, please open an [issue](https://github.com/J3rry320/react-typing-animator/issues) or submit a pull request.
 
 License
 -------
